@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="01_VariaveisETabuada/01_VariaveisETabuada.csproj" />
+  <Project Path="02_Condicionais/02_Condicionais.csproj" />
+  <Project Path="03_Strings/03_Strings.csproj" />
+  <Project Path="04_ArraysEListas/04_ArraysEListas.csproj" />
+  <Project Path="05_MetodosERecursao/05_MetodosERecursao.csproj" />
+</Solution>
