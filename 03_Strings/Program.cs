@@ -36,4 +36,85 @@
 |
 */
 
-Console.WriteLine("Exercício 03 (fácil) — ainda sem solução.");
+// StringBuilder mora aqui; não entra nos usings implícitos do projeto.
+using System.Text;
+
+Console.WriteLine($"Inverter(\"obra\") = {Inverter("obra")}");
+
+Console.WriteLine();
+Console.WriteLine($"\"Ana\" é palíndromo?                   {EhPalindromo("Ana")}");
+Console.WriteLine($"\"a base do teto desaba\" é palíndromo? {EhPalindromo("a base do teto desaba")}");
+Console.WriteLine($"\"concreto\" é palíndromo?              {EhPalindromo("concreto")}");
+
+Console.WriteLine();
+Console.WriteLine($"ContarVogais(\"Engenharia\") = {ContarVogais("Engenharia")}");
+
+Console.WriteLine();
+Console.WriteLine($"Iniciais(\"marcus bomfim\")        = {Iniciais("marcus bomfim")}");
+Console.WriteLine($"Iniciais(\"  ana   clara  souza \") = {Iniciais("  ana   clara  souza ")}");
+
+/// <summary>O texto de trás para a frente.</summary>
+static string Inverter(string texto)
+{
+    /*
+     * String em C# é imutável: "resultado += c" cria uma string nova a cada
+     * volta e joga a anterior fora. O StringBuilder mantém um buffer que
+     * cresce e só vira string no ToString() do fim.
+     */
+    var invertido = new StringBuilder();
+
+    for (int i = texto.Length - 1; i >= 0; i--)
+    {
+        invertido.Append(texto[i]);
+    }
+
+    return invertido.ToString();
+}
+
+/// <summary>Palíndromo, ignorando maiúsculas, minúsculas e espaços.</summary>
+static bool EhPalindromo(string texto)
+{
+    string limpo = texto.ToLower().Replace(" ", "");
+
+    // Em C# o == entre strings compara o conteúdo, não a referência.
+    // Não trata acentos: "Aciça" não seria reconhecido.
+    return limpo == Inverter(limpo);
+}
+
+/// <summary>Quantas vogais sem acento o texto tem.</summary>
+static int ContarVogais(string texto)
+{
+    int total = 0;
+
+    // foreach sobre uma string percorre os caracteres, um a um.
+    foreach (char c in texto.ToLower())
+    {
+        // A string curta faz papel de conjunto e evita cinco comparações com ||.
+        if ("aeiou".Contains(c))
+        {
+            total++;
+        }
+    }
+
+    return total;
+}
+
+/// <summary>Iniciais em maiúsculas, separadas por ponto: "M.B.".</summary>
+static string Iniciais(string nomeCompleto)
+{
+    /*
+     * RemoveEmptyEntries é o ponto do exercício: sem ele, "  ana   clara  "
+     * viraria ["", "", "ana", "", "", "clara", "", ""] e parte[0] estouraria
+     * nas entradas vazias.
+     */
+    string[] partes = nomeCompleto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    var iniciais = new StringBuilder();
+
+    foreach (string parte in partes)
+    {
+        // parte[0] pega o primeiro caractere, como se a string fosse array.
+        iniciais.Append(char.ToUpper(parte[0])).Append('.');
+    }
+
+    return iniciais.ToString();
+}
